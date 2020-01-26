@@ -7,7 +7,6 @@ import 'package:schatzmeister/model/add_entry.dart';
 void main() => runApp(Schatzmeister());
 
 class Schatzmeister extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +29,7 @@ class Overview extends StatefulWidget {
 }
 
 class _OverviewState extends StateMVC {
+
   _OverviewState(String title): super(Controller()) {
     _con = Controller.con;
     _con.init(title);
@@ -96,6 +96,8 @@ class _OverviewState extends StateMVC {
     );
   }
 
+
+
   void rebuild(BuildContext context) {
     Navigator.pop(context);
     setState(() {});
@@ -125,8 +127,7 @@ class _OverviewState extends StateMVC {
           child: RaisedButton(
             child: Text('Transaktionen anzeigen'),
             onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionOverview()),
-              );
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TransactionOverview(), maintainState: false));
             },
           )
         ),
@@ -135,21 +136,10 @@ class _OverviewState extends StateMVC {
             child: RaisedButton(
               child: Text('Transaktion hinzufügen'),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransaction()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTransaction(), maintainState: false));
               },
             )
         ),
-        Container(
-            padding: const EdgeInsets.all(10.0),
-            child: RaisedButton(
-              child: Text('Alles löschen'),
-              color: Colors.red,
-              onPressed: () {
-                _con.clearAll();
-              },
-            )
-        )
       ]),
     );
   }

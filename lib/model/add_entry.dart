@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import 'package:schatzmeister/controller.dart';
@@ -19,6 +20,7 @@ class _AddTransactionsState extends StateMVC {
   TransactionType _type = TransactionType.bar;
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   _AddTransactionsState(): super(Controller()) {
     _con = Controller.con;
@@ -31,8 +33,8 @@ class _AddTransactionsState extends StateMVC {
     return 1;
   }
 
-  void _add(double amount, String name, TransactionType type) async {
-    Booking booking = Booking(amount: amount, person: name, type: _getTypeAsInt(type));
+  void _add(double amount, String name, String description, TransactionType type, String date) async {
+    Booking booking = Booking(amount: amount, person: name, description: description, type: _getTypeAsInt(type), date: date);
     _con.insertBooking(booking);
     Navigator.pop(context);
   }
@@ -59,6 +61,11 @@ class _AddTransactionsState extends StateMVC {
                 label: 'Name',
                 inputType: TextInputType.text,
               ),
+              InputFieldArea(
+                controller: _descriptionController,
+                label: 'Beschreibung',
+                inputType: TextInputType.text,
+              ),
               RadioListTile<TransactionType>(
                 title: const Text('Bar'),
                 value: TransactionType.bar,
@@ -74,7 +81,7 @@ class _AddTransactionsState extends StateMVC {
               RaisedButton(
                 child: Text('Speichern'),
                 onPressed: () {
-                    _add(double.parse(_amountController.text.replaceAll(',', '.')), _nameController.text, _type);
+                    _add(double.parse(_amountController.text.replaceAll(',', '.')), _nameController.text, _descriptionController.text, _type, DateFormat('dd.MM.yy').format(DateTime.now().toLocal()));
                 },
               )],
             ),

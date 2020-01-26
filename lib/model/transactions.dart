@@ -55,9 +55,10 @@ class _TransactionState extends StateMVC {
 
     for (var booking in _con.model.bookings) {
       _rows.add(DataRow(cells: [
-        DataCell(Text(booking.id.toString())),
+        DataCell(Text(booking.date)),
         DataCell(Text(booking.amount.toStringAsFixed(2) + '€')),
         DataCell(Text(booking.person)),
+        DataCell(Text(booking.description ?? "")),
         DataCell(Text(typeText(booking.type))),
       ]));
     }
@@ -75,7 +76,7 @@ class _TransactionState extends StateMVC {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
-                    columns: _createHeader(['ID', 'Betrag', 'Person', 'Typ']),
+                    columns: _createHeader(['Datum', 'Betrag', 'Person', 'Beschreibung', 'Typ']),
                     rows: _rows,
                   ),
                 )

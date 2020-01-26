@@ -35,19 +35,13 @@ class Controller extends ControllerMVC {
         .catchError((error) => print(error.toString()));
   }
 
-  double getGesamtbestand() {
-    double value = 0.0;
-    bookings().then((booking) => booking.forEach((b) => value += b.amount));
-    return value;
-  }
-
   Future<Database> initDB() async {
     return database = openDatabase(
       join(await getDatabasesPath(), 'bookings_database.db'),
 
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE bookings(id INTEGER PRIMARY KEY, amount DOUBLE, person TEXT, type INTEGER)",);
+          "CREATE TABLE bookings(id INTEGER PRIMARY KEY, amount DOUBLE, person TEXT, type INTEGER, description TEXT, date TEXT)",);
       },
       version: 1,
     );
@@ -110,6 +104,8 @@ class Controller extends ControllerMVC {
         amount: maps[i]['amount'],
         person: maps[i]['person'],
         type: maps[i]['type'],
+        description: maps[i]['description'],
+        date: maps[i]['date'],
       );
     });
   }
